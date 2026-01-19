@@ -1,0 +1,52 @@
+<mat-toolbar>
+  <!-- logo and title -->
+  <span class="brand" routerLink="/">
+    <mat-icon>restaurant_menu</mat-icon>
+    Recipe App
+  </span>
+
+  <span style="flex: 1"></span>
+
+  <!-- navigation links for desktop -->
+  <div class="desktop-menu">
+    @if (!(isAuthenticated$ | async)) {
+    <a mat-button routerLink="/login">Login</a>
+    <a mat-button routerLink="/register">Register</a>
+
+    } @if (isAuthenticated$ | async) {
+    <a
+      mat-button
+      routerLink="/"
+      routerLinkActive="mat-accent"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Search</a
+    >
+    <a mat-button routerLink="/about" routerLinkActive="mat-accent">About</a>
+
+    @if (isEditor$ | async) {
+    <a mat-button routerLink="/create" routerLinkActive="mat-accent">Create</a>
+    }
+    <a mat-button (click)="logout()">Logout</a>
+    }
+  </div>
+
+  <!-- hamburger menu button for mobile -->
+  <button
+    mat-icon-button
+    class="mobile-menu-button"
+    [matMenuTriggerFor]="mobileMenu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- dropdown menu for mobile navigation -->
+<mat-menu #mobileMenu="matMenu">
+  <button mat-menu-item routerLink="/">Search</button>
+  <button mat-menu-item routerLink="/about">About</button>
+  @if (!(isAuthenticated$ | async)) {
+  <button mat-menu-item routerLink="/login">Login</button>
+  } @if (isAuthenticated$ | async) {
+  <button mat-menu-item (click)="logout()">Logout</button>
+  }
+</mat-menu>
